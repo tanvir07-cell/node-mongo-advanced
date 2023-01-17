@@ -3,6 +3,24 @@ const path = require("path");
 const shortid = require("shortid");
 const dbLocation = path.resolve("src", "db.json");
 
+module.exports.getRandomUser = async (req, res) => {
+  const data = await fs.readFile(dbLocation);
+  const users = JSON.parse(data);
+
+  // get the random user index:
+  const randomUserIndex = Math.floor(Math.random() * users.length);
+
+  // get the random user data:
+  const user = users[randomUserIndex];
+
+  if (user) {
+    return res.status(200).json({
+      message: "Successfully find the random user",
+      user,
+    });
+  } else return res.status(404).json({ message: "user not found!" });
+};
+
 module.exports.getAllUsers = async (req, res) => {
   const data = await fs.readFile(dbLocation);
 
