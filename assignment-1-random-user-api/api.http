@@ -17,9 +17,12 @@ Content-Type: application/json
 GET http://localhost:8000/api/v1/user/random
 
 ###
-PATCH http://localhost:8000/api/v1/user/update/aqkQgSSMQ
+PATCH http://localhost:8000/api/v1/user/update/id/aqkQgSSMQ
 Content-Type: application/json
 
 {
     "name":"Gazi Rashedul Islam"
 }
+
+###
+DELETE http://localhost:8000/api/v1/user/delete/pRg1DICPg

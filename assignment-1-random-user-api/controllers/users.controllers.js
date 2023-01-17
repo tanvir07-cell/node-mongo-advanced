@@ -35,11 +35,11 @@ module.exports.updateUserById = async (req, res) => {
 
   const user = users.find((user) => user.id == id);
 
-  user.gender = req.body.gender || user.gender;
-  user.name = req.body.name || user.name;
-  user.address = req.body.address || user.address;
-  user.contact = req.body.contact || user.contact;
-  user.photoUrl = req.body.photoUrl || user.photoUrl;
+  user.gender = req.body?.gender || user?.gender;
+  user.name = req.body?.name || user?.name;
+  user.address = req.body?.address || user?.address;
+  user.contact = req.body?.contact || user?.contact;
+  user.photoUrl = req.body?.photoUrl || user?.photoUrl;
 
   // then after updating the user write the database to the update user:
   await fs.writeFile(dbLocation, JSON.stringify(users));
@@ -50,6 +50,26 @@ module.exports.updateUserById = async (req, res) => {
       user,
     });
   } else return res.status(404).json({ message: "user not found!" });
+};
+
+module.exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  const data = await fs.readFile(dbLocation);
+  const users = JSON.parse(data);
+
+  // which user i remove from the database:
+  const user = users.find((user) => user.id == id);
+
+  // if user passes wrong id into their url params:
+  if (!user) {
+    return res.status(400).json({ message: `user id ${id} does not exist` });
+  }
+
+  const afterDeletedUser = users.filter((user) => user.id !== id);
+  await fs.writeFile(dbLocation, JSON.stringify(afterDeletedUser));
+  // no response return and no content status code : 203;
+  return res.status(203).send();
 };
 
 /**
