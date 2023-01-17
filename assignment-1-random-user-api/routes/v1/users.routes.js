@@ -6,6 +6,7 @@ const {
   getAllUsers,
   postUser,
   getRandomUser,
+  updateUserById,
 } = require("../../controllers/users.controllers");
 
 const router = require("express").Router();
@@ -14,5 +15,6 @@ router.use([morgan("dev"), cors(), express.json()]);
 router.get("/all", getAllUsers);
 router.get("/random", getRandomUser);
 router.post("/save", postUser);
+router.patch("/update/:id", updateUserById);
 
 module.exports = router;
